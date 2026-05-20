@@ -135,6 +135,7 @@ h1{
 .page img{
   width:100%;
   border-radius:14px;
+  display:block;
 }
 
 .caption{
@@ -204,31 +205,31 @@ h1{
   </div>
 </section>
 
-<!-- SCRAPBOOK (CURATED) -->
+<!-- SCRAPBOOK (UPDATED SECTION ONLY) -->
 <section class="scrapbook">
 
   <div class="page">
-    <img src="https://picsum.photos/700/900?1"/>
+    <img src="https://picsum.photos/700/900?random=1">
     <div class="caption">Lagos mornings — soft chaos before the city wakes</div>
   </div>
 
   <div class="page right">
-    <img src="https://picsum.photos/700/800?2"/>
+    <img src="https://picsum.photos/700/800?random=2">
     <div class="caption">Love stories that never needed closure</div>
   </div>
 
   <div class="page">
-    <img src="https://picsum.photos/700/1000?3"/>
+    <img src="https://picsum.photos/700/1000?random=3">
     <div class="caption">Street art, noise, and identity forming in real time</div>
   </div>
 
   <div class="page right">
-    <img src="https://picsum.photos/700/850?4"/>
+    <img src="https://picsum.photos/700/850?random=4">
     <div class="caption">Night drives through Lekki — silence between sounds</div>
   </div>
 
   <div class="page">
-    <img src="https://picsum.photos/700/950?5"/>
+    <img src="https://picsum.photos/700/950?random=5">
     <div class="caption">Memories that feel like unfinished songs</div>
   </div>
 
@@ -245,7 +246,6 @@ h1{
 
     <p>
     This project is not just music — it is memory reconstruction.
-    I am trying to turn noise into feeling, and feeling into something you can carry.
     </p>
 
     <p>
@@ -256,12 +256,12 @@ h1{
   </div>
 </section>
 
-<!-- NEWSLETTER (RESTORED) -->
+<!-- NEWSLETTER -->
 <section class="newsletter">
   <h2>Subscribe for Lagos Frequency</h2>
-  <p>Get drops, visuals & behind-the-scenes access</p>
+  <p>Get drops, visuals & updates</p>
 
-  <input class="input" placeholder="Enter your email"/>
+  <input class="input" placeholder="Enter email"/>
 </section>
 
 <script>
@@ -271,7 +271,7 @@ const lenis=new Lenis();
 function raf(t){lenis.raf(t);requestAnimationFrame(raf)}
 requestAnimationFrame(raf);
 
-/* SCRAPBOOK REVEAL */
+/* SCRAPBOOK ANIMATION */
 gsap.utils.toArray(".page").forEach((el)=>{
   gsap.to(el,{
     opacity:1,
