@@ -3,275 +3,243 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KERIN — Lagos to the World</title>
 
-<title>KERIN — Afrofusion Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
 
 <style>
-
 :root{
-  --bg:#060606;
-  --text:#f5f0e6;
-  --muted:rgba(255,255,255,.6);
-  --gold:#ffb200;
+  --bg:#07070A;
+  --text:#F5F1E8;
+  --gold:#F5B301;
+  --coral:#FF4D6D;
+  --violet:#7C5CFF;
+}
+
+[data-theme="light"]{
+  --bg:#F3EDE2;
+  --text:#1b1b1b;
+  --gold:#B7791F;
+  --coral:#C2415B;
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-
 body{
   background:var(--bg);
   color:var(--text);
-  font-family:'Syne',sans-serif;
+  font-family:Syne;
   overflow-x:hidden;
+  cursor:none;
 }
 
-/* VALENTIN STYLE HERO = MINIMAL + CINEMATIC */
+/* CURSOR */
+.cursor,.dot{
+  position:fixed;border-radius:50%;
+  pointer-events:none;z-index:9999;
+}
+.cursor{width:14px;height:14px;background:var(--gold);mix-blend-mode:difference}
+.dot{width:4px;height:4px;background:var(--coral)}
+
+/* HERO */
+#hero{height:100vh;position:relative;overflow:hidden}
+#canvas{position:absolute;inset:0}
 .hero{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding:10vw;
-  position:relative;
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  text-align:center;
+}
+h1{
+  font-size:clamp(60px,10vw,140px);
+  letter-spacing:12px;
 }
 
-#scene{
-  position:absolute;
-  inset:0;
-  z-index:0;
-  opacity:.8;
+/* BUTTONS */
+.btn{
+  padding:12px 22px;border:1px solid var(--gold);
+  border-radius:40px;margin:10px;
+  transition:.3s;
+}
+.btn:hover{transform:scale(1.1)}
+
+/* SECTIONS */
+section{padding:120px 10vw}
+h2{font-size:42px;margin-bottom:40px}
+
+/* ADIRE CANVAS */
+#adire{
+  position:absolute;inset:0;opacity:.15;
 }
 
-.hero h1{
-  font-family:'DM Serif Display';
-  font-size:10vw;
-  line-height:.9;
-  z-index:2;
-  position:relative;
-}
-
-.hero p{
-  margin-top:20px;
-  color:var(--muted);
-  z-index:2;
-  position:relative;
-  max-width:500px;
-}
-
-/* LAB SECTION (VALENTIN STYLE GRID) */
-.section{
-  padding:120px 10vw;
-  position:relative;
-}
-
-.title{
-  font-size:3vw;
-  margin-bottom:40px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  opacity:.8;
-}
-
-/* EXPERIMENT CARDS */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
-}
-
+/* EVENTS */
+.row{display:flex;gap:20px;overflow-x:auto}
 .card{
-  border:1px solid rgba(255,255,255,.1);
-  padding:20px;
-  transition:.3s;
+  min-width:260px;height:160px;
+  background:rgba(255,255,255,.05);
+  border-radius:20px;padding:20px;
 }
 
-.card:hover{
-  border-color:var(--gold);
-  transform:translateY(-5px);
+/* MOBILE */
+@media(max-width:768px){
+  h1{font-size:60px}
+  section{padding:80px 6vw}
 }
-
-.card h3{
-  font-family:'DM Serif Display';
-  margin-bottom:10px;
-}
-
-.card p{
-  color:var(--muted);
-  font-size:.95rem;
-}
-
-/* MUSIC CASE STUDIES */
-.music{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-}
-
-.track{
-  padding:20px 0;
-  border-bottom:1px solid rgba(255,255,255,.1);
-}
-
-/* LAGOS STRIP */
-.strip{
-  display:flex;
-  gap:15px;
-  overflow:hidden;
-  opacity:.7;
-  padding:20px 0;
-}
-
-.tag{
-  border:1px solid rgba(255,255,255,.15);
-  padding:6px 14px;
-  border-radius:999px;
-  white-space:nowrap;
-  font-size:.8rem;
-}
-
-/* SOCIAL */
-.socials{
-  display:flex;
-  gap:15px;
-  flex-wrap:wrap;
-  margin-top:40px;
-}
-
-.socials a{
-  padding:10px 16px;
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:999px;
-  text-decoration:none;
-  color:var(--text);
-  transition:.3s;
-}
-
-.socials a:hover{
-  border-color:var(--gold);
-}
-
 </style>
 </head>
 
 <body>
 
+<div class="cursor"></div>
+<div class="dot"></div>
+
 <!-- HERO -->
-<section class="hero">
+<section id="hero">
+<canvas id="canvas"></canvas>
+<canvas id="adire"></canvas>
 
-  <div id="scene"></div>
-
+<div class="hero">
   <h1>KERIN</h1>
+  <p>Lagos to the World · New Wave Incoming</p>
 
-  <p>
-    Afrofusion artist. Lagos-based creative system.
-    Sound experiments, street emotion, cinematic rhythm.
-  </p>
-
-  <div class="socials">
-
-    <a href="https://open.spotify.com" target="_blank">Spotify</a>
-    <a href="https://music.apple.com" target="_blank">Apple Music</a>
-    <a href="https://instagram.com" target="_blank">Instagram</a>
-    <a href="https://x.com" target="_blank">X</a>
-
+  <div>
+    <button class="btn">🎵 Pre-Save</button>
+    <button class="btn">Watch Visuals</button>
   </div>
-
+</div>
 </section>
 
-<!-- LAGOS SYSTEM -->
-<section class="section">
-
-  <div class="title">Lagos System</div>
-
-  <div class="strip">
-    <div class="tag">Eko Nights</div>
-    <div class="tag">Lekki Motion</div>
-    <div class="tag">Ikeja Noise</div>
-    <div class="tag">Afrobeats Lab</div>
-    <div class="tag">Street Frequency</div>
-  </div>
-
+<!-- STORY -->
+<section>
+<h2>THE STORY</h2>
+<p>From Lagos streets to global soundscapes.</p>
 </section>
 
-<!-- EXPERIMENT LAB -->
-<section class="section">
-
-  <div class="title">Sound Experiments</div>
-
-  <div class="grid">
-
-    <div class="card">
-      <h3>Noise of Lagos</h3>
-      <p>Field recordings turned into rhythm structures.</p>
-    </div>
-
-    <div class="card">
-      <h3>Afrobeats Motion</h3>
-      <p>How rhythm becomes visual movement systems.</p>
-    </div>
-
-    <div class="card">
-      <h3>Midnight Sessions</h3>
-      <p>Late-night studio emotion captured in sound.</p>
-    </div>
-
-  </div>
-
+<!-- DROP -->
+<section>
+<h2>LATEST DROP</h2>
+<div id="spotify">
+  <!-- Replace with real Spotify embed -->
+  <iframe style="border-radius:20px"
+  src="https://open.spotify.com/embed/track/0VjIjW4GlUZAMYd2vXMi3b"
+  width="100%" height="152"></iframe>
+</div>
 </section>
 
-<!-- MUSIC CASE STUDY -->
-<section class="section">
-
-  <div class="title">Music Case Studies</div>
-
-  <div class="music">
-
-    <div class="track">01 — EKO NIGHTS (visual identity study)</div>
-    <div class="track">02 — SUNSET IN LEKKI (mood system)</div>
-    <div class="track">03 — NO SIGNAL (distortion experiment)</div>
-
-  </div>
-
+<!-- EVENTS -->
+<section>
+<h2>EVENTS</h2>
+<div class="row">
+  <div class="card">Lagos Live</div>
+  <div class="card">London Pop-up</div>
+  <div class="card">NYC Showcase</div>
+</div>
 </section>
 
 <script>
+/* LENIS */
+const lenis=new Lenis();
+function raf(t){lenis.raf(t);requestAnimationFrame(raf)}
+requestAnimationFrame(raf);
 
-/* THREE JS — SIMPLE LAGOS ENERGY FIELD */
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
-
-camera.position.z = 5;
-
-const renderer = new THREE.WebGLRenderer({alpha:true});
-renderer.setSize(window.innerWidth,window.innerHeight);
-
-document.getElementById('scene').appendChild(renderer.domElement);
-
-const geometry = new THREE.TorusGeometry(2,0.4,16,100);
-const material = new THREE.MeshBasicMaterial({color:0xffb200,wireframe:true});
-const mesh = new THREE.Mesh(geometry,material);
-
-scene.add(mesh);
-
-function animate(){
-  requestAnimationFrame(animate);
-  mesh.rotation.x += 0.002;
-  mesh.rotation.y += 0.003;
-  renderer.render(scene,camera);
-}
-
-animate();
-
-/* RESIZE */
-window.addEventListener('resize',()=>{
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth,window.innerHeight);
+/* CURSOR */
+const c=document.querySelector('.cursor');
+const d=document.querySelector('.dot');
+addEventListener('mousemove',e=>{
+  c.style.left=e.clientX+'px';
+  c.style.top=e.clientY+'px';
+  d.style.left=(e.clientX+12)+'px';
+  d.style.top=(e.clientY+12)+'px';
 });
 
+/* THREE.JS MAIN SCENE */
+let scene=new THREE.Scene();
+let camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,0.1,1000);
+camera.position.z=3;
+
+let renderer=new THREE.WebGLRenderer({canvas:document.getElementById('canvas'),alpha:true});
+renderer.setSize(innerWidth,innerHeight);
+
+/* LIGHT FOG */
+scene.fog=new THREE.Fog(0x000000,2,6);
+
+/* VINYL */
+let geo=new THREE.TorusGeometry(1,0.35,16,120);
+let mat=new THREE.MeshBasicMaterial({color:0xf5b301,wireframe:true});
+let vinyl=new THREE.Mesh(geo,mat);
+scene.add(vinyl);
+
+/* PARTICLES */
+let g=new THREE.BufferGeometry();
+let arr=new Float32Array(500*3);
+for(let i=0;i<arr.length;i++)arr[i]=(Math.random()-0.5)*6;
+g.setAttribute('position',new THREE.BufferAttribute(arr,3));
+let p=new THREE.Points(g,new THREE.PointsMaterial({color:0xff4d6d,size:0.02}));
+scene.add(p);
+
+/* LOOP */
+function animate(){
+  requestAnimationFrame(animate);
+  vinyl.rotation.x+=0.002;
+  vinyl.rotation.y+=0.003;
+  p.rotation.y+=0.001;
+  renderer.render(scene,camera);
+}
+animate();
+
+/* ADIRE SHADER */
+const adire=document.getElementById("adire");
+const ctx=adire.getContext("2d");
+adire.width=innerWidth;
+adire.height=innerHeight;
+
+function pattern(t){
+  ctx.clearRect(0,0,adire.width,adire.height);
+  for(let x=0;x<adire.width;x+=40){
+    for(let y=0;y<adire.height;y+=40){
+      let wave=Math.sin((x+t)*0.01)*10;
+      ctx.fillStyle=`rgba(245,179,1,0.05)`;
+      ctx.beginPath();
+      ctx.arc(x+wave,y+wave,2,0,Math.PI*2);
+      ctx.fill();
+    }
+  }
+}
+function loop(t){
+  pattern(t);
+  requestAnimationFrame(loop);
+}
+loop();
+
+/* SCROLL ANIMATION */
+gsap.utils.toArray("section").forEach(s=>{
+  gsap.from(s,{
+    opacity:0,y:80,duration:1,
+    scrollTrigger:{trigger:s,start:"top 80%"}
+  });
+});
+
+/* PAUSE WHEN TAB NOT ACTIVE */
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){
+    renderer.setAnimationLoop(null);
+  }else{
+    animate();
+  }
+});
+
+/* RESIZE */
+addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+  adire.width=innerWidth;
+  adire.height=innerHeight;
+});
 </script>
 
 </body>
