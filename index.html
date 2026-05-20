@@ -5,11 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>UNCLE K</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -18,7 +14,6 @@
   --rust:#D06B3D;
   --teal:#1F6F78;
   --coral:#FF5C7A;
-  --ink:#1B1C2A;
 }
 
 body{
@@ -26,12 +21,11 @@ body{
   font-family:Syne;
   background:linear-gradient(180deg,var(--sky),var(--sand));
   overflow-x:hidden;
-  color:#1a1a1a;
 }
 
-/* ========================= */
+/* ===================== */
 /* CINEMATIC OVERLAY */
-/* ========================= */
+/* ===================== */
 
 #cinematicOverlay{
   position:fixed;
@@ -39,37 +33,23 @@ body{
   z-index:99999;
   pointer-events:none;
   opacity:0;
-  background:radial-gradient(circle at center, rgba(255,255,255,.18), rgba(0,0,0,.85));
-  transform:scale(1.3);
-  filter:blur(10px);
+  background:radial-gradient(circle at center, rgba(255,255,255,.2), rgba(0,0,0,.85));
 }
 
 #cinematicOverlay.active{
-  animation:cinematicWipe .9s ease forwards;
+  animation:flash .9s ease forwards;
 }
 
-@keyframes cinematicWipe{
-  0%{
-    opacity:0;
-    transform:scale(1.4);
-    filter:blur(14px);
-  }
-  30%{
-    opacity:1;
-    transform:scale(1.1);
-    filter:blur(0px);
-  }
-  60%{
-    opacity:1;
-  }
-  100%{
-    opacity:0;
-    transform:scale(1);
-    filter:blur(10px);
-  }
+@keyframes flash{
+  0%{opacity:0;transform:scale(1.3);filter:blur(10px)}
+  30%{opacity:1;transform:scale(1.1);filter:blur(0)}
+  100%{opacity:0;transform:scale(1);filter:blur(8px)}
 }
 
-/* BACKGROUND LAYER */
+/* ===================== */
+/* BACKGROUND */
+/* ===================== */
+
 .bg-theme{
   position:fixed;
   inset:0;
@@ -78,103 +58,56 @@ body{
   background-position:center;
   opacity:.35;
   transition:1.2s ease;
-  filter:saturate(1.1) contrast(1.05);
 }
 
-/* ========================= */
-/* INTRO */
-/* ========================= */
+/* ===================== */
+/* TOGGLE */
+/* ===================== */
 
-#introScreen{
-  position:fixed;
-  inset:0;
-  background:#1B1C2A;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-  animation:fadeOut 2.4s ease forwards;
-  animation-delay:1.8s;
-}
-
-#introScreen h1{
-  color:white;
-  font-size:80px;
-  letter-spacing:20px;
-  animation:zoom 1.5s ease forwards;
-}
-
-@keyframes zoom{
-  0%{opacity:0;transform:scale(1.4)}
-  100%{opacity:1;transform:scale(1)}
-}
-
-@keyframes fadeOut{
-  to{opacity:0;visibility:hidden}
-}
-
-/* ========================= */
-/* PAINT BLOBS */
-/* ========================= */
-
-.paint{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-}
-
-.blob{
-  position:absolute;
-  width:320px;
-  height:320px;
-  border-radius:50%;
-  filter:blur(90px);
-  opacity:.35;
-  animation:float 14s infinite ease-in-out;
-}
-
-.blob:nth-child(1){background:var(--rust);top:10%;left:10%}
-.blob:nth-child(2){background:var(--teal);top:65%;left:70%}
-.blob:nth-child(3){background:var(--coral);top:40%;left:35%}
-
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-50px)}
-}
-
-/* ========================= */
-/* THEME NAV */
-/* ========================= */
-
-.theme-nav{
+.theme-toggle{
   position:fixed;
   top:20px;
   right:20px;
-  z-index:99999;
+  z-index:9999;
+}
+
+.toggle-track{
+  position:relative;
   display:flex;
-  gap:12px;
-}
-
-.theme-btn{
-  width:50px;
-  height:50px;
-  border:none;
-  border-radius:50%;
-  cursor:pointer;
   background:rgba(255,255,255,.2);
-  backdrop-filter:blur(10px);
-  font-size:20px;
-  transition:.25s ease;
+  backdrop-filter:blur(12px);
+  border-radius:50px;
+  padding:6px;
+  gap:6px;
 }
 
-.theme-btn:hover{
-  transform:translateY(-4px) scale(1.05);
+.toggle-option{
+  padding:10px 14px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  border-radius:40px;
+  opacity:.6;
+  user-select:none;
 }
 
-/* ========================= */
+.toggle-option.active{opacity:1}
+
+.toggle-thumb{
+  position:absolute;
+  top:6px;
+  left:6px;
+  width:70px;
+  height:32px;
+  border-radius:40px;
+  background:white;
+  transition:.35s ease;
+  z-index:-1;
+}
+
+/* ===================== */
 /* HERO */
-/* ========================= */
+/* ===================== */
 
 #hero{
   height:100vh;
@@ -182,79 +115,39 @@ body{
   align-items:center;
   justify-content:center;
   text-align:center;
-  position:relative;
-  z-index:2;
 }
 
 h1{
   font-size:clamp(60px,10vw,140px);
   letter-spacing:12px;
-  margin:0;
 }
 
-.cta-row{
-  display:flex;
-  gap:20px;
-  justify-content:center;
-  margin-top:20px;
-  flex-wrap:wrap;
-}
-
-.btn{
-  padding:14px 26px;
-  border-radius:40px;
-  font-weight:700;
-  cursor:pointer;
-  transition:.25s;
-}
-
-.primary{
-  background:var(--rust);
-  color:white;
-  box-shadow:0 12px 30px rgba(208,107,61,.35);
-}
-
-.secondary{
-  border:2px solid var(--teal);
-  color:var(--teal);
-  background:rgba(255,255,255,.4);
-  backdrop-filter:blur(10px);
-}
-
-.btn:hover{
-  transform:translateY(-3px);
-}
-
-/* ========================= */
+/* ===================== */
 /* VINYL */
-/* ========================= */
+/* ===================== */
 
 .vinyl-section{
-  padding:120px 10vw;
+  padding:100px 10vw;
   display:flex;
   justify-content:center;
-  align-items:center;
-}
-
-.vinyl-wrap{
-  display:flex;
-  gap:60px;
-  flex-wrap:wrap;
-  justify-content:center;
-  align-items:center;
 }
 
 .vinyl{
   width:240px;
   height:240px;
   border-radius:50%;
-  background:radial-gradient(circle,#111 30%,#000 70%);
+  background:#111;
   position:relative;
   cursor:pointer;
 }
 
 .vinyl.playing{
   animation:spin 2.5s linear infinite;
+}
+
+@keyframes spin{
+  from{transform:rotate(0)}
+  to{transform:rotate(360deg)}
 }
 
 .record{
@@ -272,18 +165,9 @@ h1{
   justify-content:center;
   color:white;
   font-weight:800;
-  letter-spacing:3px;
 }
 
-@keyframes spin{
-  from{transform:rotate(0deg)}
-  to{transform:rotate(360deg)}
-}
-
-/* ========================= */
-/* WAVEFORM */
-/* ========================= */
-
+/* waveform */
 .waveform{
   display:flex;
   gap:3px;
@@ -295,7 +179,6 @@ h1{
   width:4px;
   height:10px;
   background:var(--teal);
-  border-radius:2px;
 }
 
 .waveform.playing span{
@@ -307,9 +190,9 @@ h1{
   50%{height:55px}
 }
 
-/* ========================= */
-/* LETTER */
-/* ========================= */
+/* ===================== */
+/* LETTER (UPDATED) */
+/* ===================== */
 
 .letter{
   padding:120px 10vw;
@@ -317,94 +200,81 @@ h1{
 }
 
 .letter-box{
-  max-width:750px;
+  max-width:700px;
   margin:auto;
-  background:rgba(255,255,255,.55);
-  backdrop-filter:blur(12px);
+  background:rgba(255,255,255,.6);
   padding:40px;
   border-radius:20px;
+  backdrop-filter:blur(12px);
+
+  font-family:"Caveat", cursive;
+  font-size:26px;
+  line-height:1.7;
+
+  position:relative;
 }
 
-/* ========================= */
+.letter-box h2{
+  font-family:Syne;
+  font-size:20px;
+  letter-spacing:2px;
+}
+
+/* ===================== */
 /* NEWSLETTER */
-/* ========================= */
+/* ===================== */
 
 .newsletter{
-  padding:120px 10vw;
+  padding:100px 10vw;
   text-align:center;
 }
 
 .input{
-  width:320px;
   padding:14px;
   border-radius:40px;
-  border:2px solid var(--teal);
-  outline:none;
+  width:300px;
+  border:1px solid #ccc;
 }
 
 /* FOOTER */
 footer{
-  padding:60px 10vw;
+  padding:60px;
   background:#1B1C2A;
   display:flex;
   justify-content:center;
-  gap:25px;
+  gap:20px;
 }
 
 .icon{
-  width:26px;
-  height:26px;
+  width:24px;
+  height:24px;
   fill:white;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-  .vinyl-wrap{flex-direction:column}
-  .cta-row{flex-direction:column}
 }
 </style>
 </head>
 
 <body>
 
-<!-- CINEMATIC OVERLAY -->
+<!-- CINEMATIC -->
 <div id="cinematicOverlay"></div>
 
 <!-- BACKGROUND -->
 <div class="bg-theme" id="bgTheme"></div>
 
-<!-- INTRO -->
-<div id="introScreen">
-  <h1>KERIN</h1>
-</div>
+<!-- TOGGLE -->
+<div class="theme-toggle">
+  <div class="toggle-track">
+    <div class="toggle-thumb" id="thumb"></div>
 
-<!-- PAINT -->
-<div class="paint">
-  <div class="blob"></div>
-  <div class="blob"></div>
-  <div class="blob"></div>
-</div>
-
-<!-- THEME NAV -->
-<div class="theme-nav">
-
-  <button class="theme-btn" onclick="setTheme('lagos-night')">U</button>
-  <button class="theme-btn" onclick="setTheme('space')">N</button>
-  <button class="theme-btn" onclick="setTheme('traffic')">C</button>
-
+    <div class="toggle-option active" data-theme="lagos-night">Night</div>
+    <div class="toggle-option" data-theme="space">Space</div>
+    <div class="toggle-option" data-theme="traffic">Traffic</div>
+  </div>
 </div>
 
 <!-- HERO -->
 <section id="hero">
-  <div>
-    <h1>KERIN</h1>
-    <p>THE NEXT BIG THING</p>
-
-    <div class="cta-row">
-      <div class="btn primary">Pre-Save Now</div>
-      <div class="btn secondary">Watch Visuals</div>
-    </div>
-  </div>
+  <h1>UNCLE K</h1>
 </section>
 
 <!-- AUDIO -->
@@ -412,121 +282,119 @@ footer{
 
 <!-- VINYL -->
 <section class="vinyl-section">
-  <div class="vinyl-wrap">
-
-    <div class="vinyl" id="vinyl">
-      <div class="record"></div>
-      <div class="label">KERIN</div>
-    </div>
-
-    <div>
-      <h2>Now Playing</h2>
-      <p>yourz</p>
-      <div class="waveform" id="waveform"></div>
-    </div>
-
+  <div class="vinyl" id="vinyl">
+    <div class="record"></div>
+    <div class="label">PLAY</div>
   </div>
+
+  <div class="waveform" id="waveform"></div>
 </section>
 
 <!-- LETTER -->
 <section class="letter">
-  <h2>A LETTER FROM KERIN</h2>
-
   <div class="letter-box">
-    <p>
-      Thank you for being part of this journey from the beginning.
-    </p>
-    <p>
-      Your trust means everything as this sound continues to evolve.
-    </p>
-    <p>
-      This is only the beginning.
-    </p>
-    <p style="margin-top:30px">— KERIN</p>
+
+    <img 
+      src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?q=80&w=1600&auto=format&fit=crop"
+      style="width:100%;border-radius:16px;margin-bottom:20px;"
+    />
+
+    <h2>A LETTER FROM UNCLE K</h2>
+
+    <p>Thank you for being part of this journey.</p>
+    <p>Your trust means everything as this sound evolves.</p>
+    <p>This is only the beginning.</p>
+
   </div>
 </section>
 
 <!-- NEWSLETTER -->
 <section class="newsletter">
-  <h2>Subscribe for Lagos Frequency</h2>
-  <input class="input" placeholder="Enter email"/>
+  <h2>Subscribe</h2>
+  <input class="input" placeholder="Email"/>
 </section>
 
 <!-- FOOTER -->
 <footer>
-<svg class="icon" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.5A4.5 4.5 0 1 0 16.5 13 4.5 4.5 0 0 0 12 8.5z"/></svg>
-<svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/></svg>
-<svg class="icon" viewBox="0 0 24 24"><path d="M18 2h3l-7 8 8 12h-6l-5-7-6 7H2l8-9L2 2h6l4 6z"/></svg>
+<svg class="icon" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5z"/></svg>
+<svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10"/></svg>
 </footer>
 
 <script>
 
-const audio=document.getElementById("audio");
-const vinyl=document.getElementById("vinyl");
-const waveform=document.getElementById("waveform");
-
-for(let i=0;i<18;i++){
-  const s=document.createElement("span");
-  waveform.appendChild(s);
-}
-
-let playing=false;
-
-vinyl.onclick=()=>{
-  if(!playing){
-    audio.play();
-    vinyl.classList.add("playing");
-    waveform.classList.add("playing");
-  }else{
-    audio.pause();
-    vinyl.classList.remove("playing");
-    waveform.classList.remove("playing");
-  }
-  playing=!playing;
-};
-
-audio.addEventListener("timeupdate",()=>{
-  if(audio.currentTime>=30){
-    audio.pause();
-    audio.currentTime=0;
-    vinyl.classList.remove("playing");
-    waveform.classList.remove("playing");
-    playing=false;
-  }
-});
-
-/* THEME SYSTEM */
-const bgTheme=document.getElementById("bgTheme");
+const bg=document.getElementById("bgTheme");
 const overlay=document.getElementById("cinematicOverlay");
+const options=document.querySelectorAll(".toggle-option");
+const thumb=document.getElementById("thumb");
 
+/* cinematic */
 function flash(){
   overlay.classList.remove("active");
   void overlay.offsetWidth;
   overlay.classList.add("active");
 }
 
-function setTheme(type){
+/* thumb move */
+function move(i){
+  thumb.style.transform=`translateX(${i*76}px)`;
+}
+
+/* theme */
+function setTheme(type,i){
+
   flash();
+  move(i);
+
+  options.forEach(o=>o.classList.remove("active"));
+  options[i].classList.add("active");
 
   setTimeout(()=>{
 
     if(type==="lagos-night"){
-      bgTheme.style.backgroundImage="url('https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=2000&auto=format&fit=crop')";
+      bg.style.backgroundImage="url('https://images.unsplash.com/photo-1514565131-fce0801e5785')";
     }
 
     if(type==="space"){
-      bgTheme.style.backgroundImage="url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2000&auto=format&fit=crop')";
+      bg.style.backgroundImage="url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564')";
     }
 
     if(type==="traffic"){
-      bgTheme.style.backgroundImage="url('https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=2000&auto=format&fit=crop')";
+      bg.style.backgroundImage="url('https://images.unsplash.com/photo-1509099836639-18ba1795216d')";
     }
 
   },200);
 }
 
-/* default */
-setTheme("lagos-night");
+options.forEach((o,i)=>{
+  o.onclick=()=>setTheme(o.dataset.theme,i);
+});
+
+setTheme("lagos-night",0);
+
+/* VINYL */
+const audio=document.getElementById("audio");
+const vinyl=document.getElementById("vinyl");
+const wave=document.getElementById("waveform");
+
+for(let i=0;i<18;i++){
+  const s=document.createElement("span");
+  wave.appendChild(s);
+}
+
+let play=false;
+
+vinyl.onclick=()=>{
+  if(!play){
+    audio.play();
+    vinyl.classList.add("playing");
+    wave.classList.add("playing");
+  }else{
+    audio.pause();
+    vinyl.classList.remove("playing");
+    wave.classList.remove("playing");
+  }
+  play=!play;
+};
 
 </script>
 
