@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>KERIN — Lagos Frequency</title>
 
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -17,26 +17,45 @@
   --sand:#E7D3B0;
   --rust:#D06B3D;
   --teal:#1F6F78;
-  --indigo:#1E1F2E;
-  --text:#1A1A1A;
-  --glass:rgba(255,255,255,0.5);
+  --coral:#FF5C7A;
+  --indigo:#1B1C2A;
 }
 
+/* BASE */
 body{
   margin:0;
   font-family:Syne;
   background:linear-gradient(180deg,var(--sky),var(--sand));
   overflow-x:hidden;
-  color:var(--text);
+  color:#1a1a1a;
 }
 
-/* CURSOR */
-.cursor{
-  position:fixed;width:14px;height:14px;
-  border-radius:50%;
-  background:var(--rust);
+/* PAINT BACKGROUND LAYER */
+.paint-layer{
+  position:fixed;
+  inset:0;
   pointer-events:none;
-  z-index:999;
+  z-index:0;
+}
+
+.blob{
+  position:absolute;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:.35;
+  animation:float 12s infinite ease-in-out;
+}
+
+.blob:nth-child(1){background:var(--rust);top:10%;left:10%}
+.blob:nth-child(2){background:var(--teal);top:60%;left:70%}
+.blob:nth-child(3){background:var(--coral);top:40%;left:40%}
+.blob:nth-child(4){background:#FFD166;top:80%;left:20%}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-40px)}
 }
 
 /* HERO */
@@ -47,34 +66,55 @@ body{
   justify-content:center;
   text-align:center;
   position:relative;
+  z-index:2;
 }
 
 h1{
   font-size:clamp(60px,10vw,140px);
   letter-spacing:10px;
+  margin:0;
 }
 
-/* CTA */
-.cta{
-  display:flex;gap:15px;justify-content:center;margin-top:20px;
+/* 3D CTA BUTTONS */
+.cta-row{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  margin-top:25px;
 }
 
 .btn{
-  padding:12px 22px;
+  position:relative;
+  padding:14px 26px;
   border-radius:40px;
-  border:none;
   cursor:pointer;
+  transform-style:preserve-3d;
+  transition:.2s;
+  font-weight:700;
+  user-select:none;
+}
+
+/* depth shadow layer */
+.btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:40px;
+  transform:translateZ(-10px);
+  filter:blur(10px);
+  opacity:.4;
 }
 
 .primary{
   background:var(--rust);
   color:white;
-  box-shadow:0 10px 25px rgba(208,107,61,0.3);
+  box-shadow:0 12px 30px rgba(208,107,61,.35);
 }
 
 .secondary{
-  border:1px solid var(--teal);
-  background:transparent;
+  border:2px solid var(--teal);
+  background:rgba(255,255,255,.4);
+  backdrop-filter:blur(10px);
   color:var(--teal);
 }
 
@@ -82,17 +122,19 @@ h1{
 .scrapbook{
   columns:3 250px;
   column-gap:15px;
-  padding:100px 10vw;
+  padding:120px 10vw;
+  position:relative;
+  z-index:2;
 }
 
 .scrap{
   break-inside:avoid;
   margin-bottom:15px;
-  border-radius:16px;
+  border-radius:18px;
   overflow:hidden;
   transform:translateY(40px);
   opacity:0;
-  transition:.6s;
+  position:relative;
 }
 
 .scrap img{
@@ -100,26 +142,37 @@ h1{
   display:block;
 }
 
+/* UPLOAD AREA */
+.upload-box{
+  margin:0 10vw 40px;
+  padding:20px;
+  border:2px dashed var(--teal);
+  border-radius:20px;
+  text-align:center;
+  background:rgba(255,255,255,.3);
+  backdrop-filter:blur(10px);
+}
+
 /* EVENTS */
 .events{
   display:flex;
   gap:20px;
   overflow-x:auto;
-  padding:0 10vw;
+  padding:0 10vw 100px;
 }
 
 .event{
   min-width:240px;
   height:150px;
-  background:var(--glass);
-  backdrop-filter:blur(15px);
+  background:rgba(255,255,255,.4);
+  backdrop-filter:blur(10px);
   border-radius:18px;
   padding:15px;
 }
 
 /* NEWSLETTER */
 .newsletter{
-  padding:120px 10vw;
+  padding:100px 10vw;
   text-align:center;
 }
 
@@ -127,48 +180,27 @@ h1{
   width:320px;
   padding:14px;
   border-radius:40px;
-  border:1px solid var(--teal);
+  border:2px solid var(--teal);
   outline:none;
 }
 
-/* SOCIAL ICONS */
-.social{
-  display:flex;
-  justify-content:center;
-  gap:25px;
-  padding:40px;
-  background:var(--indigo);
-}
-
-.icon{
-  width:26px;height:26px;
-  fill:white;
-  opacity:.8;
-}
-.icon:hover{opacity:1}
-
-/* SKELETON */
-.skeleton{
-  background:linear-gradient(90deg,#ddd,#eee,#ddd);
-  background-size:200% 100%;
-  animation:shimmer 1.4s infinite;
-}
-@keyframes shimmer{
-  0%{background-position:200% 0}
-  100%{background-position:-200% 0}
-}
-
-/* 3D SCROLL EFFECT */
-section{
-  transform:translateZ(0);
-  transition:transform .5s ease;
+/* RESPONSIVE */
+@media(max-width:768px){
+  .scrapbook{columns:1}
+  .cta-row{flex-direction:column}
 }
 </style>
 </head>
 
 <body>
 
-<div class="cursor"></div>
+<!-- PAINT BACKGROUND -->
+<div class="paint-layer">
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -176,34 +208,23 @@ section{
     <h1>KERIN</h1>
     <p>Lagos Frequency · Afrofusion Identity</p>
 
-    <div class="cta">
-      <button class="btn primary">🎵 Pre-Save</button>
-      <button class="btn secondary">Watch Visuals</button>
+    <div class="cta-row">
+      <div class="btn primary">🎵 Pre-Save Now</div>
+      <div class="btn secondary">🎬 Watch Visuals</div>
     </div>
   </div>
 </section>
 
-<!-- SCRAPBOOK (COMBINED SECTION) -->
+<!-- SCRAPBOOK UPLOAD -->
 <section>
-  <div class="scrapbook">
 
-    <div class="scrap skeleton"><img src="https://picsum.photos/500/700?1"></div>
-    <div class="scrap skeleton"><img src="https://picsum.photos/500/500?2"></div>
-    <div class="scrap skeleton"><img src="https://picsum.photos/500/800?3"></div>
-    <div class="scrap skeleton"><img src="https://picsum.photos/500/600?4"></div>
-    <div class="scrap skeleton"><img src="https://picsum.photos/500/900?5"></div>
-    <div class="scrap skeleton"><img src="https://picsum.photos/500/650?6"></div>
+<div class="upload-box">
+  <p><b>Upload Scrapbook Images</b></p>
+  <input type="file" id="fileInput" multiple accept="image/*">
+</div>
 
-  </div>
-</section>
+<div class="scrapbook" id="scrapbook"></div>
 
-<!-- LATEST DROP -->
-<section>
-  <h2 style="text-align:center">LATEST DROP</h2>
-
-  <div style="padding:0 10vw">
-    <div class="skeleton" style="height:300px;border-radius:20px;"></div>
-  </div>
 </section>
 
 <!-- EVENTS -->
@@ -220,68 +241,59 @@ section{
 <!-- NEWSLETTER -->
 <section class="newsletter">
   <h2>Subscribe for Lagos Frequency</h2>
-  <p>Get drops, visuals & show updates</p>
-
-  <input class="input" placeholder="Enter your email"/>
+  <input class="input" placeholder="Enter email"/>
 </section>
-
-<!-- SOCIAL ICONS -->
-<div class="social">
-
-<!-- Instagram -->
-<svg class="icon" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.5A4.5 4.5 0 1 0 16.5 13 4.5 4.5 0 0 0 12 8.5z"/></svg>
-
-<!-- Spotify -->
-<svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm4.5 14.5a.75.75 0 0 1-1.03.25 8.5 8.5 0 0 0-7.9-.5.75.75 0 0 1-.6-1.37 10 10 0 0 1 9.3.6.75.75 0 0 1 .23 1.02zm1-3a.9.9 0 0 1-1.2.3 11 11 0 0 0-10.2-.6.9.9 0 1 1-.8-1.6 13 13 0 0 1 12.1.7.9.9 0 0 1 .1 1.2zm.5-3.2a1 1 0 0 1-1.3.4 14 14 0 0 0-13-.7 1 1 0 1 1-.9-1.8 16 16 0 0 1 14.9.8 1 1 0 0 1 .3 1.3z"/></svg>
-
-<!-- Apple -->
-<svg class="icon" viewBox="0 0 24 24"><path d="M16.7 13.1c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.2-1.7-1.3-.1-2.5.8-3.2.8-.7 0-1.7-.8-2.8-.8-1.4 0-2.8.9-3.5 2.3-1.5 2.6-.4 6.5 1 8.6.7 1 1.5 2.2 2.6 2.2 1.1 0 1.5-.7 2.8-.7 1.3 0 1.6.7 2.8.7 1.2 0 2-.9 2.7-1.9.8-1.2 1.1-2.3 1.1-2.3-.1 0-2.2-.8-2.2-3.8z"/></svg>
-
-<!-- TikTok -->
-<svg class="icon" viewBox="0 0 24 24"><path d="M12 2h3a5 5 0 0 0 5 5v3a8 8 0 0 1-5-1.5V15a6 6 0 1 1-6-6h1v3a3 3 0 1 0 3 3V2z"/></svg>
-
-<!-- X -->
-<svg class="icon" viewBox="0 0 24 24"><path d="M18 2h3l-7 8 8 12h-6l-5-7-6 7H2l8-9L2 2h6l4 6 6-6z"/></svg>
-
-</div>
 
 <script>
 
 /* LENIS */
-const lenis = new Lenis();
+const lenis=new Lenis();
 function raf(t){lenis.raf(t);requestAnimationFrame(raf)}
 requestAnimationFrame(raf);
 
-/* CURSOR */
-const c=document.querySelector('.cursor');
-addEventListener('mousemove',e=>{
-  c.style.left=e.clientX+'px';
-  c.style.top=e.clientY+'px';
-});
+/* SCRAPBOOK UPLOAD SYSTEM */
+const input=document.getElementById("fileInput");
+const scrapbook=document.getElementById("scrapbook");
 
-/* SCRAPBOOK REVEAL */
-const scraps=document.querySelectorAll('.scrap');
+function addImage(src){
+  const div=document.createElement("div");
+  div.className="scrap";
+  div.innerHTML=`<img src="${src}"/>`;
+  scrapbook.appendChild(div);
 
-gsap.utils.toArray(scraps).forEach(el=>{
-  gsap.to(el,{
+  gsap.to(div,{
     opacity:1,
     y:0,
-    duration:1,
-    scrollTrigger:{
-      trigger:el,
-      start:"top 85%"
+    duration:1
+  });
+}
+
+input.addEventListener("change",(e)=>{
+  const files=[...e.target.files];
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      addImage(reader.result);
     }
+    reader.readAsDataURL(file);
   });
 });
 
-/* 3D SCROLL DEPTH FEEL */
-gsap.utils.toArray("section").forEach(sec=>{
-  gsap.to(sec,{
-    y:-20,
+/* DEFAULT SAMPLE IMAGES */
+for(let i=1;i<=6;i++){
+  addImage(`https://picsum.photos/600/800?random=${i}`);
+}
+
+/* SCRAP ANIMATION */
+gsap.utils.toArray(".scrap").forEach(el=>{
+  gsap.to(el,{
     scrollTrigger:{
-      trigger:sec,
-      scrub:1
-    }
+      trigger:el,
+      start:"top 85%",
+    },
+    opacity:1,
+    y:0,
+    duration:1
   });
 });
 
