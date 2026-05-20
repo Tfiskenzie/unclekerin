@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>KERIN — Lagos Frequency</title>
+<title>KERIN — Lagos Memory Frequency</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -18,24 +18,23 @@
   --rust:#D06B3D;
   --teal:#1F6F78;
   --coral:#FF5C7A;
-  --indigo:#1B1C2A;
+  --ink:#1B1C2A;
 }
 
-/* BASE */
 body{
   margin:0;
   font-family:Syne;
   background:linear-gradient(180deg,var(--sky),var(--sand));
-  overflow-x:hidden;
   color:#1a1a1a;
+  overflow-x:hidden;
 }
 
-/* PAINT BACKGROUND LAYER */
-.paint-layer{
+/* PAINT BACKGROUND */
+.paint{
   position:fixed;
   inset:0;
-  pointer-events:none;
   z-index:0;
+  pointer-events:none;
 }
 
 .blob{
@@ -43,19 +42,18 @@ body{
   width:300px;
   height:300px;
   border-radius:50%;
-  filter:blur(80px);
+  filter:blur(90px);
   opacity:.35;
-  animation:float 12s infinite ease-in-out;
+  animation:float 14s infinite ease-in-out;
 }
 
 .blob:nth-child(1){background:var(--rust);top:10%;left:10%}
-.blob:nth-child(2){background:var(--teal);top:60%;left:70%}
-.blob:nth-child(3){background:var(--coral);top:40%;left:40%}
-.blob:nth-child(4){background:#FFD166;top:80%;left:20%}
+.blob:nth-child(2){background:var(--teal);top:65%;left:70%}
+.blob:nth-child(3){background:var(--coral);top:40%;left:35%}
 
 @keyframes float{
   0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-40px)}
+  50%{transform:translateY(-50px)}
 }
 
 /* HERO */
@@ -71,38 +69,25 @@ body{
 
 h1{
   font-size:clamp(60px,10vw,140px);
-  letter-spacing:10px;
+  letter-spacing:12px;
   margin:0;
 }
 
-/* 3D CTA BUTTONS */
 .cta-row{
   display:flex;
   gap:20px;
   justify-content:center;
-  margin-top:25px;
+  margin-top:20px;
+  flex-wrap:wrap;
 }
 
 .btn{
-  position:relative;
   padding:14px 26px;
   border-radius:40px;
-  cursor:pointer;
-  transform-style:preserve-3d;
-  transition:.2s;
   font-weight:700;
+  cursor:pointer;
+  transition:.25s;
   user-select:none;
-}
-
-/* depth shadow layer */
-.btn::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:40px;
-  transform:translateZ(-10px);
-  filter:blur(10px);
-  opacity:.4;
 }
 
 .primary{
@@ -113,80 +98,82 @@ h1{
 
 .secondary{
   border:2px solid var(--teal);
+  color:var(--teal);
   background:rgba(255,255,255,.4);
   backdrop-filter:blur(10px);
-  color:var(--teal);
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+}
+
+/* UPLOAD */
+.upload{
+  margin:60px 10vw 20px;
+  padding:20px;
+  border:2px dashed var(--teal);
+  border-radius:18px;
+  text-align:center;
+  background:rgba(255,255,255,.4);
+  backdrop-filter:blur(10px);
 }
 
 /* SCRAPBOOK */
-.scrapbook{
-  columns:3 250px;
-  column-gap:15px;
-  padding:120px 10vw;
-  position:relative;
-  z-index:2;
-}
-
-.scrap{
-  break-inside:avoid;
-  margin-bottom:15px;
-  border-radius:18px;
-  overflow:hidden;
-  transform:translateY(40px);
-  opacity:0;
-  position:relative;
-}
-
-.scrap img{
-  width:100%;
-  display:block;
-}
-
-/* UPLOAD AREA */
-.upload-box{
-  margin:0 10vw 40px;
-  padding:20px;
-  border:2px dashed var(--teal);
-  border-radius:20px;
-  text-align:center;
-  background:rgba(255,255,255,.3);
-  backdrop-filter:blur(10px);
-}
-
-/* EVENTS */
-.events{
+.scrapbook-book{
+  padding:40px 10vw 120px;
   display:flex;
-  gap:20px;
-  overflow-x:auto;
-  padding:0 10vw 100px;
+  flex-direction:column;
+  gap:60px;
 }
 
-.event{
-  min-width:240px;
-  height:150px;
-  background:rgba(255,255,255,.4);
-  backdrop-filter:blur(10px);
+.page{
+  max-width:700px;
+  width:85%;
+  background:rgba(255,255,255,.6);
+  backdrop-filter:blur(12px);
   border-radius:18px;
-  padding:15px;
+  padding:18px;
+  box-shadow:0 20px 40px rgba(0,0,0,.08);
+  transform:rotate(-1deg);
+  opacity:0;
 }
 
-/* NEWSLETTER */
-.newsletter{
-  padding:100px 10vw;
+.page.right{
+  align-self:flex-end;
+  transform:rotate(1.5deg);
+}
+
+.page img{
+  width:100%;
+  border-radius:14px;
+}
+
+.caption{
+  margin-top:10px;
+  font-family:"DM Serif Display",serif;
+  font-size:18px;
+  opacity:.8;
+}
+
+/* LETTER */
+.letter{
+  padding:120px 10vw;
   text-align:center;
 }
 
-.input{
-  width:320px;
-  padding:14px;
-  border-radius:40px;
-  border:2px solid var(--teal);
-  outline:none;
+.letter-box{
+  max-width:750px;
+  margin:auto;
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(12px);
+  padding:40px;
+  border-radius:20px;
+  line-height:1.8;
 }
 
-/* RESPONSIVE */
+/* MOBILE */
 @media(max-width:768px){
-  .scrapbook{columns:1}
+  .page{width:100%}
   .cta-row{flex-direction:column}
 }
 </style>
@@ -195,8 +182,7 @@ h1{
 <body>
 
 <!-- PAINT BACKGROUND -->
-<div class="paint-layer">
-  <div class="blob"></div>
+<div class="paint">
   <div class="blob"></div>
   <div class="blob"></div>
   <div class="blob"></div>
@@ -206,7 +192,7 @@ h1{
 <section id="hero">
   <div>
     <h1>KERIN</h1>
-    <p>Lagos Frequency · Afrofusion Identity</p>
+    <p>Lagos Memory Frequency · Afrofusion Identity</p>
 
     <div class="cta-row">
       <div class="btn primary">🎵 Pre-Save Now</div>
@@ -215,33 +201,37 @@ h1{
   </div>
 </section>
 
-<!-- SCRAPBOOK UPLOAD -->
-<section>
-
-<div class="upload-box">
-  <p><b>Upload Scrapbook Images</b></p>
-  <input type="file" id="fileInput" multiple accept="image/*">
+<!-- UPLOAD -->
+<div class="upload">
+  <b>Upload Scrapbook Images</b><br><br>
+  <input type="file" id="upload" multiple accept="image/*">
 </div>
 
-<div class="scrapbook" id="scrapbook"></div>
-
-</section>
-
-<!-- EVENTS -->
+<!-- SCRAPBOOK -->
 <section>
-  <h2 style="text-align:center">UPCOMING</h2>
-
-  <div class="events">
-    <div class="event">Lagos Live</div>
-    <div class="event">Accra Night Set</div>
-    <div class="event">London Pop-up</div>
-  </div>
+  <div class="scrapbook-book" id="book"></div>
 </section>
 
-<!-- NEWSLETTER -->
-<section class="newsletter">
-  <h2>Subscribe for Lagos Frequency</h2>
-  <input class="input" placeholder="Enter email"/>
+<!-- LETTER -->
+<section class="letter">
+  <h2>A LETTER FROM KERIN</h2>
+
+  <div class="letter-box">
+    <p>
+    To everyone who has ever felt Lagos before understanding it,
+    </p>
+
+    <p>
+    This city raised me in sound, in heat, in movement that never really stops.
+    Every record I make is just me trying to hold onto a moment that was already disappearing.
+    </p>
+
+    <p>
+    If you find yourself here, you are not just listening — you are remembering with me.
+    </p>
+
+    <p style="margin-top:30px">— KERIN</p>
+  </div>
 </section>
 
 <script>
@@ -251,49 +241,54 @@ const lenis=new Lenis();
 function raf(t){lenis.raf(t);requestAnimationFrame(raf)}
 requestAnimationFrame(raf);
 
-/* SCRAPBOOK UPLOAD SYSTEM */
-const input=document.getElementById("fileInput");
-const scrapbook=document.getElementById("scrapbook");
+/* SCRAPBOOK SYSTEM */
+const input=document.getElementById("upload");
+const book=document.getElementById("book");
 
-function addImage(src){
-  const div=document.createElement("div");
-  div.className="scrap";
-  div.innerHTML=`<img src="${src}"/>`;
-  scrapbook.appendChild(div);
+function addPage(src){
+  const page=document.createElement("div");
+  page.className="page";
 
-  gsap.to(div,{
+  const side=Math.random()>0.5?"left":"right";
+  if(side==="right") page.classList.add("right");
+
+  page.innerHTML=`
+    <img src="${src}" />
+    <div class="caption">A Lagos memory captured in time</div>
+  `;
+
+  book.appendChild(page);
+
+  gsap.to(page,{
     opacity:1,
     y:0,
     duration:1
   });
 }
 
+/* UPLOAD HANDLER */
 input.addEventListener("change",(e)=>{
-  const files=[...e.target.files];
-  files.forEach(file=>{
+  [...e.target.files].forEach(file=>{
     const reader=new FileReader();
-    reader.onload=()=>{
-      addImage(reader.result);
-    }
+    reader.onload=()=>addPage(reader.result);
     reader.readAsDataURL(file);
   });
 });
 
-/* DEFAULT SAMPLE IMAGES */
+/* DEFAULT CONTENT */
 for(let i=1;i<=6;i++){
-  addImage(`https://picsum.photos/600/800?random=${i}`);
+  addPage(`https://picsum.photos/600/800?random=${i}`);
 }
 
-/* SCRAP ANIMATION */
-gsap.utils.toArray(".scrap").forEach(el=>{
+/* SCROLL REVEAL */
+gsap.utils.toArray(".page").forEach(el=>{
   gsap.to(el,{
-    scrollTrigger:{
-      trigger:el,
-      start:"top 85%",
-    },
     opacity:1,
     y:0,
-    duration:1
+    scrollTrigger:{
+      trigger:el,
+      start:"top 85%"
+    }
   });
 });
 
