@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
@@ -24,1256 +24,248 @@
   --text:#f5efe6;
   --gold:#ffb200;
   --coral:#ff5e4d;
-  --card:#111111;
   --border:rgba(255,255,255,.08);
-  --muted:rgba(255,255,255,.55);
-  --shadow:0 0 30px rgba(255,178,0,.15);
-  --skeleton:#151515;
-  --skeleton2:#232323;
 }
 
-body.light{
-  --bg:#f5eee3;
-  --text:#23160e;
-  --gold:#c46a00;
-  --coral:#db684c;
-  --card:#fffaf2;
-  --border:rgba(0,0,0,.08);
-  --muted:rgba(0,0,0,.58);
-  --shadow:0 0 30px rgba(196,106,0,.12);
-  --skeleton:#ebe2d5;
-  --skeleton2:#f8f1e8;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth}
 
 body{
   background:var(--bg);
   color:var(--text);
+  font-family:'Syne',sans-serif;
   overflow-x:hidden;
-  font-family:'Syne', sans-serif;
-  transition:
-  background .5s ease,
-  color .5s ease;
-  cursor:none;
 }
 
-body.loading{
-  overflow:hidden;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-img{
-  display:block;
-  max-width:100%;
-}
-
-canvas{
-  display:block;
-}
-
-.cursor{
-  width:18px;
-  height:18px;
-  border:1px solid var(--gold);
-  border-radius:50%;
-  position:fixed;
-  top:0;
-  left:0;
-  pointer-events:none;
-  z-index:9999;
-  transform:translate(-50%,-50%);
-  transition:width .3s ease,height .3s ease,background .3s ease;
-}
-
-.cursor-dot{
-  width:4px;
-  height:4px;
-  background:var(--gold);
-  border-radius:50%;
-  position:fixed;
-  top:0;
-  left:0;
-  pointer-events:none;
-  z-index:9999;
-  transform:translate(-50%,-50%);
-}
-
-.cursor.active{
-  width:60px;
-  height:60px;
-  background:rgba(255,178,0,.12);
-}
-
+/* INTRO FIXED */
 .intro{
   position:fixed;
   inset:0;
   background:#000;
-  z-index:99999;
   display:flex;
-  justify-content:center;
   align-items:center;
-  overflow:hidden;
-}
-
-.intro-text{
-  font-size:9vw;
-  font-family:'Dela Gothic One', sans-serif;
-  color:#fff;
-  letter-spacing:.1em;
-  position:relative;
-  text-transform:uppercase;
-}
-
-.intro::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image:url('https://picsum.photos/1920/1080?grayscale');
-  mix-blend-mode:overlay;
-  opacity:.15;
+  justify-content:center;
+  z-index:99999;
+  transition:opacity .8s ease, visibility .8s ease;
 }
 
 .intro.hide{
+  opacity:0;
+  visibility:hidden;
   pointer-events:none;
 }
 
-.intro.hide .intro-panel-left{
-  transform:translateX(-100%);
+.intro-text{
+  font-family:'Dela Gothic One';
+  font-size:10vw;
+  color:white;
+  letter-spacing:.1em;
 }
 
-.intro.hide .intro-panel-right{
-  transform:translateX(100%);
-}
-
-.intro-panel-left,
-.intro-panel-right{
-  position:absolute;
-  top:0;
-  width:50%;
-  height:100%;
-  background:#000;
-  transition:transform 1.3s cubic-bezier(.77,0,.18,1);
-}
-
-.intro-panel-left{
-  left:0;
-}
-
-.intro-panel-right{
-  right:0;
-}
-
-.mode-toggle{
-  position:fixed;
-  top:24px;
-  right:24px;
-  width:58px;
-  height:58px;
+/* CURSOR */
+.cursor{
+  width:14px;height:14px;
+  border:1px solid var(--gold);
   border-radius:50%;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.04);
-  backdrop-filter:blur(10px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-  cursor:pointer;
-}
-
-.mode-toggle svg{
-  width:26px;
-  fill:var(--gold);
-}
-
-.ripple{
   position:fixed;
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  background:var(--bg);
   pointer-events:none;
   transform:translate(-50%,-50%);
-  z-index:998;
-  animation:ripple 1s ease forwards;
+  z-index:9999;
 }
 
-@keyframes ripple{
-  to{
-    width:300vmax;
-    height:300vmax;
-    opacity:0;
-  }
-}
-
-section{
-  position:relative;
-  padding:120px 7vw;
-}
-
+/* HERO */
 .hero{
   min-height:100vh;
   display:flex;
   align-items:center;
+  padding:80px;
   position:relative;
-  overflow:hidden;
 }
 
-#scene-container{
+#scene{
   position:absolute;
   inset:0;
   z-index:0;
 }
 
-.hero-overlay{
-  position:absolute;
-  inset:0;
-  background:
-  radial-gradient(circle at center,
-  rgba(255,178,0,.08),
-  transparent 50%);
-}
-
 .hero-content{
   position:relative;
-  z-index:3;
-  width:100%;
+  z-index:2;
+  max-width:900px;
 }
 
-.hero-kicker{
-  color:var(--gold);
-  margin-bottom:20px;
-  letter-spacing:.2em;
-  font-size:.8rem;
-  text-transform:uppercase;
+.hero h1{
+  font-family:'Dela Gothic One';
+  font-size:8vw;
+  line-height:.9;
 }
 
-.hero-title{
-  font-family:'Dela Gothic One', sans-serif;
-  font-size:clamp(5rem,16vw,14rem);
-  line-height:.86;
-  text-transform:uppercase;
-  max-width:1000px;
-}
-
-.hero-title span{
-  display:inline-block;
-  opacity:0;
-  filter:blur(10px);
-  transform:translateY(120px);
-}
-
-.hero-sub{
-  margin-top:28px;
-  font-size:1.1rem;
-  color:var(--muted);
-  min-height:28px;
-}
-
-.hero-buttons{
-  margin-top:50px;
-  display:flex;
-  gap:18px;
-  flex-wrap:wrap;
+.hero p{
+  margin-top:20px;
+  opacity:.7;
 }
 
 .btn{
-  position:relative;
-  overflow:hidden;
-  padding:18px 30px;
+  display:inline-block;
+  margin-top:30px;
+  padding:14px 24px;
+  border:1px solid var(--gold);
   border-radius:999px;
-  border:1px solid var(--border);
-  font-weight:700;
-  transition:.35s ease;
-}
-
-.btn.primary{
-  background:var(--gold);
-  color:#000;
-  box-shadow:var(--shadow);
-}
-
-.btn.primary::before{
-  content:"";
-  position:absolute;
-  inset:-8px;
-  border:1px solid rgba(255,178,0,.5);
-  border-radius:999px;
-  animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-  0%{transform:scale(1);opacity:1;}
-  100%{transform:scale(1.15);opacity:0;}
-}
-
-.btn:hover{
-  transform:translateY(-4px);
-}
-
-.soundwave{
-  position:absolute;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:160px;
-  opacity:.2;
-  overflow:hidden;
-}
-
-.wave{
-  width:200%;
-  height:100%;
-  background:
-  repeating-linear-gradient(
-    90deg,
-    var(--gold) 0 3px,
-    transparent 3px 12px
-  );
-  animation:waveMove 10s linear infinite;
-  mask-image:linear-gradient(to top,black,transparent);
-}
-
-@keyframes waveMove{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
-}
-
-.section-title{
-  font-family:'Dela Gothic One', sans-serif;
-  font-size:clamp(2rem,7vw,6rem);
-  text-transform:uppercase;
-  line-height:.95;
-  margin-bottom:60px;
-}
-
-.story-wrapper{
-  display:flex;
-  gap:30px;
-  min-width:max-content;
-}
-
-.story-card{
-  width:420px;
-  background:var(--card);
-  border:1px solid var(--border);
-  padding:30px;
-  position:relative;
-  overflow:hidden;
-}
-
-.story-image{
-  height:250px;
-  overflow:hidden;
-  margin-bottom:25px;
-}
-
-.story-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transform:scale(1.1);
-}
-
-.story-card h3{
-  font-size:2rem;
-  margin-bottom:20px;
-}
-
-.story-card p{
-  color:var(--muted);
-  line-height:1.8;
-}
-
-.pattern-divider{
-  width:100%;
-  height:160px;
-  background:
-  radial-gradient(circle,var(--gold) 1px,transparent 1px);
-  background-size:24px 24px;
-  opacity:.1;
-}
-
-.album-layout{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:80px;
-  align-items:center;
-}
-
-.album-card{
-  perspective:1200px;
-}
-
-.album-inner{
-  position:relative;
-  width:100%;
-  transform-style:preserve-3d;
-}
-
-.album-cover{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  border-radius:24px;
-  box-shadow:var(--shadow);
-}
-
-.out-now{
-  position:absolute;
-  top:20px;
-  right:20px;
-  background:var(--coral);
-  color:#fff;
-  padding:12px 18px;
-  border-radius:999px;
-  font-size:.8rem;
-  transform:scale(0);
-}
-
-.track-list{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-}
-
-.track{
-  overflow:hidden;
-  border-bottom:1px solid var(--border);
-  padding-bottom:12px;
-}
-
-.track span{
-  display:block;
-  transform:translateY(100%);
-}
-
-.spotify{
-  margin-top:40px;
-  border-radius:24px;
-  overflow:hidden;
-}
-
-.community{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:60px;
-  align-items:center;
-}
-
-.quote{
-  font-family:'Dela Gothic One', sans-serif;
-  font-size:clamp(3rem,8vw,7rem);
-  line-height:.9;
-  text-transform:uppercase;
-}
-
-.mosaic{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.mosaic img{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  opacity:0;
-  transform:scale(.8);
-}
-
-.newsletter{
-  margin-top:40px;
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-}
-
-.newsletter input{
-  flex:1;
-  min-width:260px;
-  background:none;
-  border:none;
-  border-bottom:2px solid var(--border);
-  padding:18px 0;
-  color:var(--text);
-  font-size:1rem;
-  outline:none;
-}
-
-.newsletter input:focus{
-  border-color:var(--gold);
-  box-shadow:0 10px 20px rgba(255,178,0,.08);
-}
-
-.events{
-  display:flex;
-  gap:30px;
-  overflow-x:auto;
-  padding-bottom:10px;
-}
-
-.event-card{
-  min-width:320px;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:28px;
-  padding:30px;
-}
-
-.event-city{
-  font-size:2rem;
-  margin-bottom:20px;
-}
-
-.countdown{
-  color:var(--gold);
-  margin:20px 0;
-}
-
-.footer{
-  padding:80px 0;
-  overflow:hidden;
-  border-top:1px solid var(--border);
-}
-
-.ticker{
-  white-space:nowrap;
-  display:flex;
-  gap:80px;
-  animation:ticker 15s linear infinite;
-}
-
-.ticker span{
-  font-family:'Dela Gothic One', sans-serif;
-  font-size:6vw;
-  color:transparent;
-  -webkit-text-stroke:1px var(--border);
-}
-
-@keyframes ticker{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
-}
-
-.skeleton{
-  position:relative;
-  overflow:hidden;
-  background:var(--skeleton);
-}
-
-.skeleton::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-  linear-gradient(
-    90deg,
-    transparent,
-    var(--skeleton2),
-    transparent
-  );
-  transform:translateX(-100%);
-  animation:shimmer 1.6s infinite;
-}
-
-@keyframes shimmer{
-  100%{
-    transform:translateX(100%);
-  }
-}
-
-.loading-cover{
-  width:100%;
-  aspect-ratio:1/1;
-  border-radius:24px;
-}
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.9);
-  z-index:99999;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  padding:40px;
-}
-
-.modal.active{
-  display:flex;
-}
-
-.modal iframe{
-  width:min(1000px,100%);
-  height:70vh;
-  border:none;
-}
-
-.close-modal{
-  position:absolute;
-  top:30px;
-  right:30px;
-  font-size:2rem;
   cursor:pointer;
 }
 
-@media(max-width:768px){
+.section{
+  padding:120px 10vw;
+}
 
-  body{
-    cursor:auto;
-  }
+.section h2{
+  font-family:'Dela Gothic One';
+  font-size:4vw;
+  margin-bottom:40px;
+}
 
-  .cursor,
-  .cursor-dot{
-    display:none;
-  }
+/* TRACKS */
+.track{
+  padding:20px 0;
+  border-bottom:1px solid var(--border);
+}
 
-  .album-layout,
-  .community{
-    grid-template-columns:1fr;
-  }
-
-  .hero-title{
-    font-size:5rem;
-  }
-
-  .story-card{
-    width:82vw;
-  }
-
+/* EVENTS */
+.event{
+  padding:30px;
+  border:1px solid var(--border);
+  margin-bottom:20px;
+  border-radius:20px;
 }
 
 </style>
 </head>
 
-<body class="loading dark">
+<body>
 
+<!-- INTRO -->
 <div class="intro">
-  <div class="intro-panel-left"></div>
-  <div class="intro-panel-right"></div>
   <div class="intro-text">KERIN</div>
 </div>
 
 <div class="cursor"></div>
-<div class="cursor-dot"></div>
 
-<button class="mode-toggle" aria-label="Toggle theme">
-  <svg viewBox="0 0 24 24">
-    <path d="M21 12.79A9 9 0 0 1 11.21 3c0 .34-.02.68-.02 1.03A9 9 0 1 0 19.97 13c.35 0 .69-.02 1.03-.21z"/>
-  </svg>
-</button>
-
-<div class="modal" id="videoModal">
-  <div class="close-modal">✕</div>
-  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
-</div>
-
+<!-- HERO -->
 <section class="hero">
 
-  <div id="scene-container"></div>
-  <div class="hero-overlay"></div>
+  <div id="scene"></div>
 
   <div class="hero-content">
-
-    <div class="hero-kicker">
-      Lagos / Afrofusion / Motion
-    </div>
-
-    <h1 class="hero-title">
-      <span>K</span>
-      <span>E</span>
-      <span>R</span>
-      <span>I</span>
-      <span>N</span>
+    <h1>
+      LAGOS<br>
+      TO THE<br>
+      WORLD
     </h1>
 
-    <div class="hero-sub">
-      <span id="typewriter"></span>
-    </div>
+    <p>Afrofusion artist · New wave sound from Nigeria</p>
 
-    <div class="hero-buttons">
-      <a href="#" class="btn primary magnetic">
-        🎵 Pre-Save Now
-      </a>
-
-      <a href="#" class="btn magnetic" id="watchBtn">
-        Watch The Visuals
-      </a>
-    </div>
-
-  </div>
-
-  <div class="soundwave">
-    <div class="wave"></div>
+    <a class="btn">Pre-Save Now</a>
   </div>
 
 </section>
 
-<div class="pattern-divider"></div>
+<!-- MUSIC -->
+<section class="section">
+  <h2>Latest Drop</h2>
 
-<section class="story-section">
-
-  <h2 class="section-title">
-    THE STORY
-  </h2>
-
-  <div class="story-wrapper">
-
-    <div class="story-card">
-      <div class="story-image skeleton">
-        <img src="https://picsum.photos/500/500?1">
-      </div>
-      <h3>Ikeja Beginnings.</h3>
-      <p>
-        Late buses. Loud speakers. Burna playing from kiosks.
-        KERIN grew from the rhythm of Lagos movement.
-      </p>
-    </div>
-
-    <div class="story-card">
-      <div class="story-image skeleton">
-        <img src="https://picsum.photos/500/500?2">
-      </div>
-      <h3>Afrofusion Motion.</h3>
-      <p>
-        Street melodies layered with luxury textures.
-        The sound moves between intimacy and chaos.
-      </p>
-    </div>
-
-    <div class="story-card">
-      <div class="story-image skeleton">
-        <img src="https://picsum.photos/500/500?3">
-      </div>
-      <h3>Lagos To The World.</h3>
-      <p>
-        Built for rooftop nights, neon clubs,
-        and headphones at 2AM.
-      </p>
-    </div>
-
-  </div>
-
+  <div class="track">01 — EKO NIGHTS</div>
+  <div class="track">02 — SUNSET DRIVE</div>
+  <div class="track">03 — NO SIGNAL</div>
 </section>
 
-<section class="latest-drop">
+<!-- EVENTS -->
+<section class="section">
+  <h2>Events</h2>
 
-  <h2 class="section-title">
-    LATEST DROP
-  </h2>
-
-  <div class="album-layout">
-
-    <div class="album-card">
-      <div class="album-inner">
-        <div class="loading-cover skeleton"></div>
-
-        <img
-          class="album-cover"
-          src="https://picsum.photos/800/800?4"
-        >
-
-        <div class="out-now">
-          OUT NOW
-        </div>
-      </div>
-    </div>
-
-    <div>
-
-      <div class="track-list">
-
-        <div class="track"><span>01 · YES MOMMY</span></div>
-        <div class="track"><span>02 · EKO NIGHTS</span></div>
-        <div class="track"><span>03 · SUNSET IN LEKKI</span></div>
-        <div class="track"><span>04 · SLOW WINE</span></div>
-        <div class="track"><span>05 · NO SIGNAL</span></div>
-
-      </div>
-
-      <div class="spotify">
-        <iframe style="border-radius:12px"
-        src="https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT?utm_source=generator"
-        width="100%"
-        height="152"
-        frameBorder="0"
-        allowfullscreen=""
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-        </iframe>
-      </div>
-
-    </div>
-
-  </div>
+  <div class="event">Lagos — December 2026</div>
+  <div class="event">London — January 2027</div>
+  <div class="event">Houston — March 2027</div>
 
 </section>
-
-<section class="community-section">
-
-  <div class="community">
-
-    <div>
-
-      <div class="quote">
-        "WE DON'T
-        MAKE SONGS.
-        WE BUILD
-        MOMENTS."
-      </div>
-
-      <div class="newsletter">
-
-        <input
-        type="email"
-        placeholder="Join the Lagos Wave">
-
-        <button class="btn primary magnetic">
-          JOIN
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="mosaic">
-
-      <img src="https://picsum.photos/400?11">
-      <img src="https://picsum.photos/400?12">
-      <img src="https://picsum.photos/400?13">
-      <img src="https://picsum.photos/400?14">
-      <img src="https://picsum.photos/400?15">
-      <img src="https://picsum.photos/400?16">
-
-    </div>
-
-  </div>
-
-</section>
-
-<section>
-
-  <h2 class="section-title">
-    EVENTS / DROPS
-  </h2>
-
-  <div class="events">
-
-    <div class="event-card magnetic">
-      <div class="event-city">
-        🇳🇬 Lagos
-      </div>
-      <p>Livespot Festival</p>
-      <div class="countdown" data-date="2026-12-10"></div>
-      <a href="#" class="btn">
-        Get Tickets
-      </a>
-    </div>
-
-    <div class="event-card magnetic">
-      <div class="event-city">
-        🇬🇧 London
-      </div>
-      <p>Afro Nation Afterparty</p>
-      <div class="countdown" data-date="2026-11-02"></div>
-      <a href="#" class="btn">
-        Get Tickets
-      </a>
-    </div>
-
-    <div class="event-card magnetic">
-      <div class="event-city">
-        🇺🇸 Houston
-      </div>
-      <p>Warehouse Sessions</p>
-      <div class="countdown" data-date="2027-01-17"></div>
-      <a href="#" class="btn">
-        Get Tickets
-      </a>
-    </div>
-
-  </div>
-
-</section>
-
-<footer class="footer">
-
-  <div class="ticker">
-    <span>KERIN · LAGOS · AFROBEATS · NEW DROP ·</span>
-    <span>KERIN · LAGOS · AFROBEATS · NEW DROP ·</span>
-  </div>
-
-</footer>
 
 <script>
 
-gsap.registerPlugin(ScrollTrigger);
-
-// INTRO
-
+/* INTRO FIX */
 window.addEventListener('load', () => {
-
   setTimeout(() => {
     document.querySelector('.intro').classList.add('hide');
-    document.body.classList.remove('loading');
-  }, 1800);
-
+  }, 1200);
 });
 
-// LENIS
+/* CURSOR */
+const cursor = document.querySelector('.cursor');
 
-const lenis = new Lenis({
-  duration:1.2,
-  smoothWheel:true
+window.addEventListener('mousemove', (e) => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
 });
 
+/* LENIS SAFE INIT */
+const lenis = new Lenis();
 function raf(time){
   lenis.raf(time);
   requestAnimationFrame(raf);
 }
-
 requestAnimationFrame(raf);
 
-// TYPEWRITER
+/* THREE.JS SAFE INIT */
+let scene, camera, renderer, mesh;
 
-const text = "Lagos to the World · New Drop Coming";
-const typewriter = document.getElementById('typewriter');
-let i = 0;
+function init3D(){
 
-function type(){
-  if(i < text.length){
-    typewriter.innerHTML += text.charAt(i);
-    i++;
-    setTimeout(type, 70);
-  } else{
-    typewriter.innerHTML += '<span class="cursor-blink">|</span>';
-  }
+  const container = document.getElementById('scene');
+
+  if(!container) return;
+
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.z = 5;
+
+  renderer = new THREE.WebGLRenderer({alpha:true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  container.appendChild(renderer.domElement);
+
+  const geometry = new THREE.TorusGeometry(2,0.4,16,100);
+  const material = new THREE.MeshStandardMaterial({color:0xffb200});
+  mesh = new THREE.Mesh(geometry, material);
+
+  scene.add(mesh);
+
+  const light = new THREE.PointLight(0xffb200,2);
+  light.position.set(3,3,3);
+  scene.add(light);
+
+  animate();
 }
-
-setTimeout(type, 1800);
-
-// HERO ANIMATION
-
-gsap.to('.hero-title span',{
-  opacity:1,
-  y:0,
-  filter:'blur(0px)',
-  stagger:.12,
-  duration:1.3,
-  delay:1.8,
-  ease:'power4.out'
-});
-
-// STORY
-
-gsap.from('.story-card',{
-  x:200,
-  opacity:0,
-  stagger:.25,
-  duration:1.3,
-  scrollTrigger:{
-    trigger:'.story-section',
-    start:'top 70%'
-  }
-});
-
-// TRACKS
-
-gsap.to('.track span',{
-  y:0,
-  stagger:.12,
-  duration:1,
-  scrollTrigger:{
-    trigger:'.track-list',
-    start:'top 80%'
-  }
-});
-
-// OUT NOW
-
-gsap.to('.out-now',{
-  scale:1,
-  rotate:-8,
-  duration:1,
-  ease:'elastic.out(1,0.5)',
-  scrollTrigger:{
-    trigger:'.album-layout',
-    start:'top 70%'
-  }
-});
-
-// MOSAIC
-
-gsap.to('.mosaic img',{
-  opacity:1,
-  scale:1,
-  stagger:.08,
-  duration:.8,
-  scrollTrigger:{
-    trigger:'.community',
-    start:'top 75%'
-  }
-});
-
-// TILT
-
-VanillaTilt.init(document.querySelectorAll(".event-card"),{
-  max:10,
-  speed:300,
-  glare:true,
-  "max-glare":0.2
-});
-
-// CURSOR
-
-const cursor = document.querySelector('.cursor');
-const cursorDot = document.querySelector('.cursor-dot');
-
-window.addEventListener('mousemove',e=>{
-
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-
-  cursorDot.style.left = e.clientX + 'px';
-  cursorDot.style.top = e.clientY + 'px';
-
-});
-
-document.querySelectorAll('a, button').forEach(el=>{
-
-  el.addEventListener('mouseenter',()=>{
-    cursor.classList.add('active');
-  });
-
-  el.addEventListener('mouseleave',()=>{
-    cursor.classList.remove('active');
-  });
-
-});
-
-// MAGNETIC
-
-document.querySelectorAll('.magnetic').forEach(btn=>{
-
-  btn.addEventListener('mousemove',function(e){
-
-    const rect = this.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width/2;
-    const y = e.clientY - rect.top - rect.height/2;
-
-    this.style.transform = `translate(${x*0.15}px, ${y*0.15}px)`;
-
-  });
-
-  btn.addEventListener('mouseleave',function(){
-    this.style.transform = '';
-  });
-
-});
-
-// MODAL
-
-const modal = document.getElementById('videoModal');
-
-document.getElementById('watchBtn').onclick = e=>{
-  e.preventDefault();
-  modal.classList.add('active');
-};
-
-document.querySelector('.close-modal').onclick = ()=>{
-  modal.classList.remove('active');
-};
-
-// THEME
-
-const toggle = document.querySelector('.mode-toggle');
-
-if(localStorage.getItem('theme') === 'light'){
-  document.body.classList.add('light');
-}
-
-toggle.addEventListener('click', e=>{
-
-  const ripple = document.createElement('div');
-  ripple.className = 'ripple';
-  ripple.style.left = e.clientX + 'px';
-  ripple.style.top = e.clientY + 'px';
-
-  document.body.appendChild(ripple);
-
-  document.body.classList.toggle('light');
-
-  localStorage.setItem(
-    'theme',
-    document.body.classList.contains('light')
-    ? 'light'
-    : 'dark'
-  );
-
-  setTimeout(()=>{
-    ripple.remove();
-  },1000);
-
-});
-
-// THREE.JS
-
-const container = document.getElementById('scene-container');
-
-const scene = new THREE.Scene();
-
-const camera = new THREE.PerspectiveCamera(
-  60,
-  window.innerWidth/window.innerHeight,
-  0.1,
-  1000
-);
-
-camera.position.z = 6;
-
-const renderer = new THREE.WebGLRenderer({
-  antialias:true,
-  alpha:true
-});
-
-renderer.setSize(window.innerWidth, window.innerHeight);
-
-container.appendChild(renderer.domElement);
-
-// VINYL
-
-const geometry = new THREE.TorusGeometry(2, .5, 32, 100);
-
-const material = new THREE.MeshStandardMaterial({
-  color:0xffb200,
-  emissive:0x442200,
-  metalness:.8,
-  roughness:.3
-});
-
-const vinyl = new THREE.Mesh(geometry, material);
-
-scene.add(vinyl);
-
-// LIGHT
-
-const light = new THREE.PointLight(0xffb200, 3);
-
-light.position.set(4,4,4);
-
-scene.add(light);
-
-const ambient = new THREE.AmbientLight(0xffffff,.4);
-
-scene.add(ambient);
-
-// PARTICLES
-
-const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 1500;
-
-const posArray = new Float32Array(particlesCount * 3);
-
-for(let i=0; i<particlesCount * 3; i++){
-  posArray[i] = (Math.random() - 0.5) * 20;
-}
-
-particlesGeometry.setAttribute(
-  'position',
-  new THREE.BufferAttribute(posArray,3)
-);
-
-const particlesMaterial = new THREE.PointsMaterial({
-  size:0.02,
-  color:0xff5e4d
-});
-
-const particlesMesh = new THREE.Points(
-  particlesGeometry,
-  particlesMaterial
-);
-
-scene.add(particlesMesh);
-
-// ANIMATE
-
-let running = true;
 
 function animate(){
-
-  if(!running) return;
-
   requestAnimationFrame(animate);
 
-  vinyl.rotation.x += .003;
-  vinyl.rotation.y += .004;
+  if(mesh){
+    mesh.rotation.x += 0.002;
+    mesh.rotation.y += 0.003;
+  }
 
-  particlesMesh.rotation.y += .0008;
-
-  renderer.render(scene,camera);
-
+  if(renderer){
+    renderer.render(scene,camera);
+  }
 }
 
-animate();
+init3D();
 
-// PAUSE TAB
-
-document.addEventListener('visibilitychange',()=>{
-
-  if(document.hidden){
-    running = false;
-  } else{
-    running = true;
-    animate();
+/* RESIZE */
+window.addEventListener('resize', () => {
+  if(camera && renderer){
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
   }
-
-});
-
-// RESIZE
-
-window.addEventListener('resize',()=>{
-
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-
-  renderer.setSize(window.innerWidth, window.innerHeight);
-
-});
-
-// COUNTDOWN
-
-document.querySelectorAll('.countdown').forEach(el=>{
-
-  const date = new Date(el.dataset.date).getTime();
-
-  function update(){
-
-    const now = new Date().getTime();
-
-    const distance = date - now;
-
-    const days = Math.floor(distance/(1000*60*60*24));
-
-    el.innerHTML = days + " Days Remaining";
-
-  }
-
-  update();
-
-  setInterval(update,1000);
-
 });
 
 </script>
