@@ -4,19 +4,19 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>KERIN — Lagos To The World</title>
+<title>KERIN — Afrofusion Lab</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Syne:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.min.js"></script>
 
 <style>
 
 :root{
-  --bg:#050505;
-  --text:#f5efe6;
+  --bg:#060606;
+  --text:#f5f0e6;
+  --muted:rgba(255,255,255,.6);
   --gold:#ffb200;
-  --muted:rgba(255,255,255,.65);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -28,63 +28,119 @@ body{
   overflow-x:hidden;
 }
 
-/* BACKGROUND LAYER (LAGOS ATMOSPHERE) */
-.bg{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  opacity:.35;
-  background:
-    url('https://images.unsplash.com/photo-1542044801-30d2b7a6b8a6?auto=format&fit=crop&w=2000&q=60') center/cover no-repeat;
-  filter:contrast(1.2) brightness(.6);
-}
-
-/* DARK OVERLAY GRADIENT */
-.overlay{
-  position:fixed;
-  inset:0;
-  background:
-  radial-gradient(circle at 30% 20%, rgba(255,178,0,.18), transparent 40%),
-  radial-gradient(circle at 70% 80%, rgba(255,94,77,.15), transparent 50%),
-  rgba(0,0,0,.75);
-  z-index:1;
-}
-
-/* HERO */
+/* VALENTIN STYLE HERO = MINIMAL + CINEMATIC */
 .hero{
-  position:relative;
-  z-index:2;
-  min-height:100vh;
+  height:100vh;
   display:flex;
   flex-direction:column;
   justify-content:center;
-  padding:80px;
+  padding:10vw;
+  position:relative;
 }
 
-h1{
-  font-family:'Dela Gothic One';
-  font-size:9vw;
+#scene{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  opacity:.8;
+}
+
+.hero h1{
+  font-family:'DM Serif Display';
+  font-size:10vw;
   line-height:.9;
+  z-index:2;
+  position:relative;
 }
 
-.sub{
+.hero p{
   margin-top:20px;
   color:var(--muted);
+  z-index:2;
+  position:relative;
   max-width:500px;
 }
 
-/* SOCIALS */
-.socials{
-  margin-top:40px;
-  display:flex;
-  gap:18px;
-  flex-wrap:wrap;
+/* LAB SECTION (VALENTIN STYLE GRID) */
+.section{
+  padding:120px 10vw;
+  position:relative;
 }
 
-.social{
+.title{
+  font-size:3vw;
+  margin-bottom:40px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  opacity:.8;
+}
+
+/* EXPERIMENT CARDS */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+.card{
+  border:1px solid rgba(255,255,255,.1);
+  padding:20px;
+  transition:.3s;
+}
+
+.card:hover{
+  border-color:var(--gold);
+  transform:translateY(-5px);
+}
+
+.card h3{
+  font-family:'DM Serif Display';
+  margin-bottom:10px;
+}
+
+.card p{
+  color:var(--muted);
+  font-size:.95rem;
+}
+
+/* MUSIC CASE STUDIES */
+.music{
   display:flex;
-  align-items:center;
-  gap:8px;
+  flex-direction:column;
+  gap:20px;
+}
+
+.track{
+  padding:20px 0;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+/* LAGOS STRIP */
+.strip{
+  display:flex;
+  gap:15px;
+  overflow:hidden;
+  opacity:.7;
+  padding:20px 0;
+}
+
+.tag{
+  border:1px solid rgba(255,255,255,.15);
+  padding:6px 14px;
+  border-radius:999px;
+  white-space:nowrap;
+  font-size:.8rem;
+}
+
+/* SOCIAL */
+.socials{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-top:40px;
+}
+
+.socials a{
   padding:10px 16px;
   border:1px solid rgba(255,255,255,.15);
   border-radius:999px;
@@ -93,83 +149,8 @@ h1{
   transition:.3s;
 }
 
-.social:hover{
+.socials a:hover{
   border-color:var(--gold);
-  transform:translateY(-2px);
-}
-
-/* ICONS */
-.icon{
-  width:16px;
-  height:16px;
-  fill:var(--gold);
-}
-
-/* MUSIC SECTION */
-.section{
-  position:relative;
-  z-index:2;
-  padding:100px 80px;
-}
-
-.section h2{
-  font-family:'Dela Gothic One';
-  font-size:4vw;
-  margin-bottom:40px;
-}
-
-/* CARDS */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:20px;
-}
-
-.card{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:18px;
-  overflow:hidden;
-  transition:.3s;
-}
-
-.card:hover{
-  transform:translateY(-6px);
-  border-color:var(--gold);
-}
-
-.card img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-}
-
-.card .info{
-  padding:14px;
-}
-
-/* LAGOS ICON STRIP */
-.strip{
-  display:flex;
-  gap:14px;
-  overflow:hidden;
-  padding:20px 0;
-  opacity:.7;
-}
-
-.tag{
-  border:1px solid rgba(255,255,255,.1);
-  padding:8px 14px;
-  border-radius:999px;
-  white-space:nowrap;
-  font-size:.8rem;
-}
-
-/* FOOTER LINKS */
-.footer{
-  padding:80px;
-  text-align:center;
-  color:var(--muted);
 }
 
 </style>
@@ -177,92 +158,121 @@ h1{
 
 <body>
 
-<div class="bg"></div>
-<div class="overlay"></div>
-
 <!-- HERO -->
 <section class="hero">
 
+  <div id="scene"></div>
+
   <h1>KERIN</h1>
 
-  <p class="sub">
-    Afrobeats / Afrofusion artist from Lagos, Nigeria.<br>
-    Sound shaped by street nights, neon lights, and motion.
+  <p>
+    Afrofusion artist. Lagos-based creative system.
+    Sound experiments, street emotion, cinematic rhythm.
   </p>
 
-  <!-- SOCIAL LINKS -->
   <div class="socials">
 
-    <a class="social" href="https://open.spotify.com" target="_blank">
-      <svg class="icon" viewBox="0 0 24 24"><path d="M12 0a12 12 0 100 24 12 12 0 000-24zm5.5 17.2a.75.75 0 01-1.03.25c-2.82-1.72-6.37-2.1-10.56-1.12a.75.75 0 01-.34-1.46c4.6-1.07 8.54-.63 11.66 1.28.36.22.47.7.27 1.05zm1.45-3.14a.9.9 0 01-1.24.3c-3.4-2.1-8.6-2.7-12.6-1.5a.9.9 0 01-.5-1.72c4.5-1.3 10.3-.6 14.2 1.8.4.24.52.76.14 1.12zm.13-3.3C14.7 8.4 8.1 8.2 4.6 9.3a1.05 1.05 0 11-.6-2c4.2-1.3 11.3-1 15.7 1.5a1.05 1.05 0 01-1.1 1.8z"/></svg>
-      Spotify
-    </a>
-
-    <a class="social" href="https://music.apple.com" target="_blank">
-      🍎 Apple Music
-    </a>
-
-    <a class="social" href="https://instagram.com" target="_blank">
-      📸 Instagram
-    </a>
-
-    <a class="social" href="https://x.com" target="_blank">
-      ✕ Twitter
-    </a>
+    <a href="https://open.spotify.com" target="_blank">Spotify</a>
+    <a href="https://music.apple.com" target="_blank">Apple Music</a>
+    <a href="https://instagram.com" target="_blank">Instagram</a>
+    <a href="https://x.com" target="_blank">X</a>
 
   </div>
 
 </section>
 
-<!-- LAGOS VIBE STRIP -->
-<div class="section">
-
-  <div class="strip">
-    <div class="tag">LAGOS NIGHT DRIVE</div>
-    <div class="tag">EKO BRIDGE LIGHTS</div>
-    <div class="tag">AFROFUSION SOUND</div>
-    <div class="tag">IKEJA ENERGY</div>
-    <div class="tag">LEKKI SUNSET</div>
-    <div class="tag">AFROBEATS CULTURE</div>
-  </div>
-
-</div>
-
-<!-- MUSIC VISUALS -->
+<!-- LAGOS SYSTEM -->
 <section class="section">
 
-  <h2>Latest Visuals</h2>
+  <div class="title">Lagos System</div>
+
+  <div class="strip">
+    <div class="tag">Eko Nights</div>
+    <div class="tag">Lekki Motion</div>
+    <div class="tag">Ikeja Noise</div>
+    <div class="tag">Afrobeats Lab</div>
+    <div class="tag">Street Frequency</div>
+  </div>
+
+</section>
+
+<!-- EXPERIMENT LAB -->
+<section class="section">
+
+  <div class="title">Sound Experiments</div>
 
   <div class="grid">
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=800&q=60">
-      <div class="info">EKO NIGHTS — Official Cover</div>
+      <h3>Noise of Lagos</h3>
+      <p>Field recordings turned into rhythm structures.</p>
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=800&q=60">
-      <div class="info">Studio Session — Lagos Heat</div>
+      <h3>Afrobeats Motion</h3>
+      <p>How rhythm becomes visual movement systems.</p>
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=800&q=60">
-      <div class="info">Afrofusion Portrait Series</div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=60">
-      <div class="info">Street Sound Energy</div>
+      <h3>Midnight Sessions</h3>
+      <p>Late-night studio emotion captured in sound.</p>
     </div>
 
   </div>
 
 </section>
 
-<!-- FOOTER -->
-<div class="footer">
-  KERIN · LAGOS · AFROBEATS · NEW WAVE SOUND · 2026
-</div>
+<!-- MUSIC CASE STUDY -->
+<section class="section">
+
+  <div class="title">Music Case Studies</div>
+
+  <div class="music">
+
+    <div class="track">01 — EKO NIGHTS (visual identity study)</div>
+    <div class="track">02 — SUNSET IN LEKKI (mood system)</div>
+    <div class="track">03 — NO SIGNAL (distortion experiment)</div>
+
+  </div>
+
+</section>
+
+<script>
+
+/* THREE JS — SIMPLE LAGOS ENERGY FIELD */
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+
+camera.position.z = 5;
+
+const renderer = new THREE.WebGLRenderer({alpha:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+
+document.getElementById('scene').appendChild(renderer.domElement);
+
+const geometry = new THREE.TorusGeometry(2,0.4,16,100);
+const material = new THREE.MeshBasicMaterial({color:0xffb200,wireframe:true});
+const mesh = new THREE.Mesh(geometry,material);
+
+scene.add(mesh);
+
+function animate(){
+  requestAnimationFrame(animate);
+  mesh.rotation.x += 0.002;
+  mesh.rotation.y += 0.003;
+  renderer.render(scene,camera);
+}
+
+animate();
+
+/* RESIZE */
+window.addEventListener('resize',()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+
+</script>
 
 </body>
 </html>
